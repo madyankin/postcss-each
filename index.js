@@ -1,18 +1,13 @@
 var postcss = require('postcss');
+var list    = postcss.list;
 
 module.exports = postcss.plugin('postcss-each', function(opts) {
   opts = opts || {};
 
   function paramsList(params) {
-    var params = params.split('in');
-
-    var name = params[0]
-      .replace('$', '')
-      .trim();
-
-    var values = params[1]
-      .split(',')
-      .map(function(value) { return value.trim() });
+    var params  = params.split('in');
+    var name    = params[0].replace('$', '').trim();
+    var values  = list.comma(params[1]);
 
     return {
       name:             name,
@@ -34,8 +29,9 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
     return clone;
   }
 
-  function iterateRules(rule, params) {
+  function processRuleNodes(rule, params) {
     rule.nodes.forEach(function(node) {
+
       params.values.forEach(function(value) {
         var processedNode = processValue(node, value, params);
         rule.parent.insertBefore(rule, processedNode);
@@ -48,7 +44,7 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
   return function(css) {
     css.eachAtRule('each', function(rule) {
       var params = paramsList(rule.params);
-      iterateRules(rule, params);
+      processRuleNodes(rule, params);
       rule.removeSelf();
     });
   };

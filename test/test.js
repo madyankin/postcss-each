@@ -17,6 +17,12 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
+  it('iterates through one value', function() {
+    var input     = '@each $icon in foo { .icon-$(icon) { background: url("$(icon).png"); } }';
+    var expected  = '.icon-foo {\n    background: url("foo.png")\n}';
+    test(input, expected);
+  });
+
   it('respects multiple selectors', function() {
     var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
                     '{ background: url("$(icon).png"); } }';
