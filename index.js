@@ -4,6 +4,28 @@ var list    = postcss.list;
 module.exports = postcss.plugin('postcss-each', function(opts) {
   opts = opts || {};
 
+  function error(rule, message) {
+    throw rule.error(message, { plugin: 'postcss-each' });
+  }
+
+  function checkParams(rule) {
+    if (rule.params.indexOf('in') == -1) {
+      error(rule, 'Missed "in" keyword in @each');
+    }
+
+    var params  = rule.params.split('in');
+    var name    = params[0].trim();
+    var values  = params[1].trim();
+
+    if (!name.match(/\$[_a-zA-Z]\w+/)) {
+      error(rule, 'Missed variable name in @each');
+    }
+
+    if (!values.match(/(\w+\,?\s?)+/)) {
+      error(rule, 'Missed values list in @each');
+    }
+  }
+
   function paramsList(params) {
     var params  = params.split('in');
     var name    = params[0].replace('$', '').trim();
@@ -43,6 +65,7 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
 
   return function(css) {
     css.eachAtRule('each', function(rule) {
+      checkParams(rule);
       var params = paramsList(rule.params);
       processRuleNodes(rule, params);
       rule.removeSelf();

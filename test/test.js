@@ -10,6 +10,24 @@ function test(input, expected, opts, done) {
 
 describe('postcss-each', function() {
 
+  it('expects valid syntax', function() {
+    var missedIn = function() {
+      test('@each $icon foo, bar {}');
+    };
+
+    var missedVar = function() {
+      test('@each in foo, bar {}');
+    };
+
+    var missedValues = function() {
+      test('@each $icon in {}');
+    };
+
+    assert.throws(missedIn, /Missed "in" keyword in @each/);
+    assert.throws(missedVar, /Missed variable name in @each/);
+    assert.throws(missedValues, /Missed values list in @each/);
+  });
+
   it('iterates through given values', function() {
     var input     = '@each $icon in foo, bar { .icon-$(icon) { background: url("$(icon).png"); } }';
     var expected  = '.icon-foo {\n    background: url("foo.png")\n}\n' +
