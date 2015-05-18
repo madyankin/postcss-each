@@ -15,9 +15,10 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
       .map(function(value) { return value.trim() });
 
     return {
-      name:       name,
-      nameRegexp: new RegExp('\\$\\(?' + name + '\\)?', 'g'),
-      values:     values
+      name:             name,
+      interpolatedName: '$(' + name + ')',
+      nameRegexp:       new RegExp('\\$\\(?' + name + '\\)?', 'g'),
+      values:           values
     };
   }
 
@@ -27,7 +28,7 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
     clone.selector = clone.selector.replace(params.nameRegexp, value);
 
     clone.eachDecl(function(decl) {
-      decl.value = decl.value.replace(params.nameRegexp, value);
+      decl.value = decl.value.replace(params.interpolatedName, value);
     });
 
     return clone;

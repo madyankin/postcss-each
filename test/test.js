@@ -33,7 +33,19 @@ describe('postcss-each', function() {
     var expected  = '.icon-foo {\n    background: url("foo.png");\n' +
                                  '    content: "foo"\n}\n' +
                     '.icon-bar {\n    background: url("bar.png");\n' +
-                                       '    content: "bar"\n}';
+                                 '    content: "bar"\n}';
+    test(input, expected);
+  });
+
+  it('replaces only interpolated values in properties', function() {
+    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
+                    'content: "$icon";' +
+                    'content: "$(icon)";' +
+                    '}}';
+    var expected  = '.icon-foo {\n    content: "$icon";\n' +
+                                 '    content: "foo"\n}\n' +
+                    '.icon-bar {\n    content: "$icon";\n' +
+                                 '    content: "bar"\n}';
     test(input, expected);
   });
 
