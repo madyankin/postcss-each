@@ -1,0 +1,28 @@
+{
+  "name": "postcss-each",
+  "version": "0.0.0",
+  "description": "PostCSS plugin to iterate through values",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "each",
+    "iterator"
+  ],
+  "author": "Alexander Madyankin <alexander@madyankin.name>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/outpunk/postcss-each.git"
+  },
+  "dependencies": {
+    "postcss": "^4.1.9"
+  },
+  "devDependencies": {
+    "jscs": "^1.13.1",
+    "mocha": "^2.2.5"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/jscs index.js test && ./node_modules/.bin/mocha"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "preset": "airbnb",
+  "disallowMultipleVarDecl": "exceptUndefined",
+  "disallowQuotedKeysInObjects": "allButReserved"
+}
