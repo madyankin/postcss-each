@@ -34,10 +34,10 @@ function processRules(rule, params) {
   rule.nodes.forEach(function(node) {
     params.values.forEach(function(value) {
       var clone = node.clone();
-      var proxy = postcss.rule({ nodes: [clone]});
+      var proxy = postcss.rule({ nodes: [clone] });
 
       values[params.name] = value;
-      vars({only: values})(proxy);
+      vars({ only: values })(proxy);
 
       rule.parent.insertBefore(rule, clone);
     });
