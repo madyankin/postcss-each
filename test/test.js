@@ -63,4 +63,12 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
+  it('doesn\'t replace other variables', function() {
+    var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
+                    '{ background: url("$(bg).png"); } }';
+    var expected  = '.icon-foo, .foo {\n    background: url("$(bg).png")\n}\n' +
+                    '.icon-bar, .bar {\n    background: url("$(bg).png")\n}';
+    test(input, expected);
+  });
+
 });
