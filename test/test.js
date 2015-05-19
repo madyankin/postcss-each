@@ -29,14 +29,16 @@ describe('postcss-each', function() {
   });
 
   it('iterates through given values', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon) { background: url("$(icon).png"); } }';
+    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
+                    'background: url("$(icon).png"); } }';
     var expected  = '.icon-foo {\n    background: url("foo.png")\n}\n' +
                     '.icon-bar {\n    background: url("bar.png")\n}';
     test(input, expected);
   });
 
   it('iterates through one value', function() {
-    var input     = '@each $icon in foo { .icon-$(icon) { background: url("$(icon).png"); } }';
+    var input     = '@each $icon in foo { .icon-$(icon) {' +
+                    'background: url("$(icon).png"); } }';
     var expected  = '.icon-foo {\n    background: url("foo.png")\n}';
     test(input, expected);
   });
@@ -57,18 +59,6 @@ describe('postcss-each', function() {
     var expected  = '.icon-foo {\n    background: url("foo.png");\n' +
                                  '    content: "foo"\n}\n' +
                     '.icon-bar {\n    background: url("bar.png");\n' +
-                                 '    content: "bar"\n}';
-    test(input, expected);
-  });
-
-  it('replaces only interpolated values in properties', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
-                    'content: "$icon";' +
-                    'content: "$(icon)";' +
-                    '}}';
-    var expected  = '.icon-foo {\n    content: "$icon";\n' +
-                                 '    content: "foo"\n}\n' +
-                    '.icon-bar {\n    content: "$icon";\n' +
                                  '    content: "bar"\n}';
     test(input, expected);
   });
