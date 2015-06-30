@@ -11,7 +11,7 @@ function checkParams(rule) {
   var name    = params[0].trim();
   var values  = params[1].trim();
 
-  if (!name.match(/\$[_a-zA-Z]\w+/)) {
+  if (!name.match(/\$[_a-zA-Z]?\w+/)) {
     throw rule.error('Missed variable name in @each');
   }
 

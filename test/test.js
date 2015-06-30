@@ -43,6 +43,13 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
+  it('iterates short names', function() {
+    var input     = '@each $i in foo { .icon-$(i) {' +
+                    'background: url("$(i).png"); } }';
+    var expected  = '.icon-foo {\n    background: url("foo.png")\n}';
+    test(input, expected);
+  });
+
   it('respects multiple selectors', function() {
     var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
                     '{ background: url("$(icon).png"); } }';
