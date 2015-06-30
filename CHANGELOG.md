@@ -1,3 +1,6 @@
+## 0.2.1
+Fixed short vars issue #2
+
 ## 0.2.0
 ### Internal changes
 * The code has been cleaned.
