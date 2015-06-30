@@ -50,6 +50,13 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
+  it('iterates vals and position', function() {
+    var input     = '@each $val, $i in foo { .icon-$(val) {' +
+                    'background: url("$(val)_$(i).png"); } }';
+    var expected  = '.icon-foo {\n    background: url("foo_0.png")\n}';
+    test(input, expected);
+  });
+
   it('respects multiple selectors', function() {
     var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
                     '{ background: url("$(icon).png"); } }';
