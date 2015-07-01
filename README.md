@@ -6,6 +6,8 @@ A [PostCSS] plugin to iterate through values.
 [ci-img]:  https://travis-ci.org/outpunk/postcss-each.svg
 [ci]:      https://travis-ci.org/outpunk/postcss-each
 
+Iterate through values:
+
 ```css
 @each $icon in foo, bar, baz {
   .icon-$(icon) {
@@ -24,6 +26,32 @@ A [PostCSS] plugin to iterate through values.
 }
 
 .icon-baz {
+  background: url('icons/baz.png');
+}
+```
+
+Iterate through values with index:
+
+```css
+$array: (foo, bar, baz);
+
+@each $val, $i in s, m, l  {
+  .icon_size_$(val) {
+    background: url('icons/$(array[$i]).png');
+  }
+}
+```
+
+```css
+.icon_size_s {
+  background: url('icons/foo.png');
+}
+
+.icon_size_m {
+  background: url('icons/bar.png');
+}
+
+.icon_size_l {
   background: url('icons/baz.png');
 }
 ```
