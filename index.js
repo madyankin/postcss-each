@@ -7,9 +7,9 @@ function checkParams(rule) {
     throw rule.error('Missed "in" keyword in @each');
   }
 
-  var params  = rule.params.split('in');
-  var name    = params[0].trim();
-  var values  = params[1].trim();
+  var params = rule.params.split('in');
+  var name = params[0].trim();
+  var values = params[1].trim();
 
   if (!name.match(/\$[_a-zA-Z]?\w+/)) {
     throw rule.error('Missed variable name in @each');
@@ -21,22 +21,27 @@ function checkParams(rule) {
 }
 
 function paramsList(params) {
-  var params  = params.split('in');
-  var name    = params[0].replace('$', '').trim();
-  var values  = list.comma(params[1]);
+  var params = params.split('in');
+  var vars = params[0].split(',');
 
-  return { name: name, values: values };
+  return {
+    name: vars[0].replace('$', '').trim(),
+    increment: vars[1] && vars[1].replace('$', '').trim(),
+    values: list.comma(params[1])
+  };
 }
 
 function processRules(rule, params) {
   var values = {};
 
   rule.nodes.forEach(function(node) {
-    params.values.forEach(function(value) {
+    params.values.forEach(function(value, i) {
       var clone = node.clone();
       var proxy = postcss.rule({ nodes: [clone] });
 
       values[params.name] = value;
+      params.increment && (values[params.increment] = i);
+
       vars({ only: values })(proxy);
 
       rule.parent.insertBefore(rule, clone);
