@@ -8,7 +8,7 @@ function checkParams(rule) {
   }
 
   var params = rule.params.split('in');
-  var name = params[0].trim();
+  var name   = params[0].trim();
   var values = params[1].trim();
 
   if (!name.match(/\$[_a-zA-Z]?\w+/)) {
@@ -21,13 +21,15 @@ function checkParams(rule) {
 }
 
 function paramsList(params) {
-  var params = params.split('in');
-  var vars = params[0].split(',');
+  var params    = params.split('in');
+  var vars      = params[0].split(',');
+  var valueName = vars[0];
+  var indexName = vars[1];
 
   return {
-    name: vars[0].replace('$', '').trim(),
-    increment: vars[1] && vars[1].replace('$', '').trim(),
-    values: list.comma(params[1])
+    valueName:  valueName.replace('$', '').trim(),
+    indexName:  indexName && indexName.replace('$', '').trim(),
+    values:     list.comma(params[1])
   };
 }
 
@@ -35,12 +37,12 @@ function processRules(rule, params) {
   var values = {};
 
   rule.nodes.forEach(function(node) {
-    params.values.forEach(function(value, i) {
+    params.values.forEach(function(value, index) {
       var clone = node.clone();
       var proxy = postcss.rule({ nodes: [clone] });
 
-      values[params.name] = value;
-      params.increment && (values[params.increment] = i);
+      values[params.valueName] = value;
+      if (params.indexName) values[params.indexName] = index;
 
       vars({ only: values })(proxy);
 
