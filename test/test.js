@@ -66,6 +66,21 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
+  it('respects properties with `in` substring', function() {
+    var input     = '@each $icon in print, bar { .$(icon)' +
+                    '{ background: url("$(icon).png"); } }';
+    var expected  = '.print {\n    background: url("print.png")\n}\n' +
+                    '.bar {\n    background: url("bar.png")\n}';
+    test(input, expected);
+  });
+
+  it('respects multiline expressions', function() {
+    var input     = '@each $icon\nin foo { .$(icon)' +
+                    '{ background: url("$(icon).png"); } }';
+    var expected  = '.foo {\n    background: url("foo.png")\n}';
+    test(input, expected);
+  });
+
   it('respects multiple properties', function() {
     var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
                     'background: url("$(icon).png");' +

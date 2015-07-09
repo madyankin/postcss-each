@@ -1,27 +1,24 @@
-var postcss = require('postcss');
-var vars    = require('postcss-simple-vars');
-var list    = postcss.list;
+var postcss   = require('postcss');
+var vars      = require('postcss-simple-vars');
+var list      = postcss.list;
 
-function checkParams(rule) {
-  if (rule.params.indexOf('in') == -1) {
-    throw rule.error('Missed "in" keyword in @each');
-  }
+var SEPARATOR = /\s+in\s+/;
 
-  var params = rule.params.split('in');
+function checkParams(params) {
+  if (!SEPARATOR.test(params)) return 'Missed "in" keyword in @each';
+
+  var params = params.split(SEPARATOR);
   var name   = params[0].trim();
   var values = params[1].trim();
 
-  if (!name.match(/\$[_a-zA-Z]?\w+/)) {
-    throw rule.error('Missed variable name in @each');
-  }
+  if (!name.match(/\$[_a-zA-Z]?\w+/)) return 'Missed variable name in @each';
+  if (!values.match(/(\w+\,?\s?)+/)) return 'Missed values list in @each';
 
-  if (!values.match(/(\w+\,?\s?)+/)) {
-    throw rule.error('Missed values list in @each');
-  }
+  return null;
 }
 
 function paramsList(params) {
-  var params    = params.split('in');
+  var params    = params.split(SEPARATOR);
   var vars      = params[0].split(',');
   var valueName = vars[0];
   var indexName = vars[1];
@@ -58,8 +55,11 @@ module.exports = postcss.plugin('postcss-each', function(opts) {
 
   return function(css) {
     css.eachAtRule('each', function(rule) {
-      checkParams(rule);
-      var params = paramsList(rule.params);
+      var params = ' ' + rule.params + ' ';
+      var error = checkParams(params);
+      if (error) throw rule.error(error);
+
+      var params = paramsList(params);
       processRules(rule, params);
       rule.removeSelf();
     });
