@@ -7,7 +7,7 @@ function checkParams(rule) {
     throw rule.error('Missed "in" keyword in @each');
   }
 
-  var params = rule.params.split('in');
+  var params = rule.params.split(' in ');
   var name   = params[0].trim();
   var values = params[1].trim();
 
@@ -21,7 +21,7 @@ function checkParams(rule) {
 }
 
 function paramsList(params) {
-  var params    = params.split('in');
+  var params    = params.split(' in ');
   var vars      = params[0].split(',');
   var valueName = vars[0];
   var indexName = vars[1];
