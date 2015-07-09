@@ -1,3 +1,6 @@
+## 0.3.1
+Fixed #4: Do not search the `in` keyword inside vars
+
 ## 0.3.0
 Added index iteration:
 
