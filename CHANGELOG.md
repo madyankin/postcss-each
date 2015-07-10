@@ -1,3 +1,6 @@
+## 0.4.1
+Internal improvements
+
 ## 0.4.0
 Added nested iteration (by Ryan Tsao @rtsao)
 
