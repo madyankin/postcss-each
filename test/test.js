@@ -109,4 +109,48 @@ describe('postcss-each', function() {
                     '.icon-bar {\n    border: abc;\n    border: xyz\n}';
     test(input, expected);
   });
+
+  it('performs complex nested iteration', function() {
+    var input =     '@each $foo in a, b {' +
+                    '  .$(foo) {' +
+                    '    hello: $(foo);' +
+                    '  } ' +
+                    '  @each $bar in x, y {' +
+                    '    .$(foo)-$(bar) {' +
+                    '      color: purple;' +
+                    '      @each $baz in u, v {' +
+                    '        blah: $(baz);' +
+                    '      }' +
+                    '    }' +
+                    '  }' +
+                    '}';
+    var expected = '.a {\n' +
+                    '    hello: a\n' +
+                    '}\n' +
+                    '.b {\n' +
+                    '    hello: b\n' +
+                    '}\n' +
+                    '.a-x {\n' +
+                    '    color: purple;\n' +
+                    '    blah: u;\n' +
+                    '    blah: v\n' +
+                    '}\n' +
+                    '.b-x {\n' +
+                    '    color: purple;\n' +
+                    '    blah: u;\n' +
+                    '    blah: v\n' +
+                    '}\n' +
+                    '.a-y {\n' +
+                    '    color: purple;\n' +
+                    '    blah: u;\n' +
+                    '    blah: v\n' +
+                    '}\n' +
+                    '.b-y {\n' +
+                    '    color: purple;\n' +
+                    '    blah: u;\n' +
+                    '    blah: v\n' +
+                    '}';
+    test(input, expected);
+  });
+
 });
