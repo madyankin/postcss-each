@@ -101,13 +101,12 @@ describe('postcss-each', function() {
     test(input, expected);
   });
 
-});
-
-it('performs nested iteration', function() {
-  var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
-                  '@each $thing in abc, xyz { border: $(thing); }' +
-                  '} }';
-  var expected  = '.icon-foo {\n    border: abc;\n    border: xyz\n}\n' +
-                  '.icon-bar {\n    border: abc;\n    border: xyz\n}';
-  test(input, expected);
+  it('performs nested iteration', function() {
+    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
+                    '@each $thing in abc, xyz { border: $(thing); }' +
+                    '} }';
+    var expected  = '.icon-foo {\n    border: abc;\n    border: xyz\n}\n' +
+                    '.icon-bar {\n    border: abc;\n    border: xyz\n}';
+    test(input, expected);
+  });
 });
