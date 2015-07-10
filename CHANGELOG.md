@@ -1,8 +1,11 @@
+## 0.4.0
+Added nested iteration (by Ryan Tsao @rtsao)
+
 ## 0.3.1
 Fixed #4: Do not search the `in` keyword inside vars
 
 ## 0.3.0
-Added index iteration:
+Added index iteration (by Anton Winogradov @verybigman):
 
 ```css
 $array: (foo, bar);
