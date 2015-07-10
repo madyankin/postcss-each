@@ -49,14 +49,11 @@ describe('postcss-each', function() {
     assert.throws(missedValues, /Missed values list in @each/);
   });
 
-  var caseNames = Object.keys(cases);
-  for (var i = 0; i < caseNames.length; i++) {
-    var caseName    = caseNames[i];
+  for (var caseName in cases) {
     var description = cases[caseName];
 
     it(description, function() {
       test(css(caseName), css(caseName + '.expected'));
     });
-  };
-
+  }
 });
