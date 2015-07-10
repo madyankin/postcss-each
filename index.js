@@ -33,6 +33,8 @@ function paramsList(params) {
 function processRules(rule, params) {
   var values = {};
 
+  rule.eachAtRule('each', processEach);
+
   rule.nodes.forEach(function(node) {
     params.values.forEach(function(value, index) {
       var clone = node.clone();
@@ -50,19 +52,21 @@ function processRules(rule, params) {
   });
 }
 
+function processEach(rule) {
+  var params = ' ' + rule.params + ' ';
+  var error = checkParams(params);
+  if (error) throw rule.error(error);
+
+  var params = paramsList(params);
+  processRules(rule, params);
+  rule.removeSelf();
+}
+
 module.exports = postcss.plugin('postcss-each', function(opts) {
   opts = opts || {};
 
   return function(css) {
-    css.eachAtRule('each', function(rule) {
-      var params = ' ' + rule.params + ' ';
-      var error = checkParams(params);
-      if (error) throw rule.error(error);
-
-      var params = paramsList(params);
-      processRules(rule, params);
-      rule.removeSelf();
-    });
+    css.eachAtRule('each', processEach);
   };
 
 });
