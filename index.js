@@ -55,8 +55,8 @@ function processEach(rule) {
   var error = checkParams(params);
   if (error) throw rule.error(error);
 
-  var params = paramsList(params);
-  processRules(rule, params);
+  var parsedParams = paramsList(params);
+  processRules(rule, parsedParams);
   rule.removeSelf();
 }
 
