@@ -1,0 +1,13 @@
+@each $icon
+in foo {
+    .$(icon) {
+        background: url("$(icon).png")
+    }
+}
+@each $icon
+in
+bar {
+    .$(icon) {
+        background: url("$(icon).png")
+    }
+}

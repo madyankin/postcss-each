@@ -1,0 +1,34 @@
+.icon-foo {
+    border: abc;
+    border: xyz
+}
+.icon-bar {
+    border: abc;
+    border: xyz
+}
+.a {
+    hello: a
+}
+.b {
+    hello: b
+}
+.a-x {
+    color: purple;
+    blah: u;
+    blah: v
+}
+.b-x {
+    color: purple;
+    blah: u;
+    blah: v
+}
+.a-y {
+    color: purple;
+    blah: u;
+    blah: v
+}
+.b-y {
+    color: purple;
+    blah: u;
+    blah: v
+}

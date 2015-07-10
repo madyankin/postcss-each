@@ -1,0 +1,20 @@
+@each $icon in foo, bar {
+    .icon-$(icon) {
+        @each $thing in abc, xyz {
+            border: $(thing);
+        }
+    }
+}
+@each $foo in a, b {
+    .$(foo) {
+        hello: $(foo);
+    }
+    @each $bar in x, y {
+        .$(foo)-$(bar) {
+          color: purple;
+          @each $baz in u, v {
+            blah: $(baz);
+          }
+        }
+    }
+}

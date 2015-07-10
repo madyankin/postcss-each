@@ -1,0 +1,5 @@
+@each $icon in foo, bar {
+    .icon-$(icon) {
+        background: url("$(icon).png");
+    }
+}

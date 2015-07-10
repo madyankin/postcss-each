@@ -1,0 +1,5 @@
+@each $icon in print, bar {
+    .$(icon) {
+        background: url("$(icon).png");
+    }
+}

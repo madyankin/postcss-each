@@ -1,12 +1,33 @@
 var postcss = require('postcss');
 var assert  = require('assert');
+var fs      = require('fs');
+var path    = require('path');
 
-var plugin = require('../');
+var plugin    = require('../');
+var casesPath = path.join(__dirname, '/cases');
+
+var cases = {
+  'multiple-values':        'iterates through given values',
+  'one-value':              'iterates through one value',
+  'short-names':            'iterates short names',
+  'value-with-index':       'iterates value and index',
+  'multiple-selectors':     'respects multiple selectors',
+  'with-in-substring':      'respects properties with `in` substring',
+  'multiline-expressions':  'respects multiline expressions',
+  'multiple-properties':    'respects multiple properties',
+  'other-variables':        'doesn\'t replace other variables',
+  'nested-iteration':       'performs nested iteration'
+};
 
 function test(input, expected, opts, done) {
   var result = postcss([plugin(opts)]).process(input).css;
   assert.equal(result, expected);
 };
+
+function css(name) {
+  var fileName = path.join(casesPath, name + '.css');
+  return fs.readFileSync(fileName).toString();
+}
 
 describe('postcss-each', function() {
 
@@ -28,129 +49,14 @@ describe('postcss-each', function() {
     assert.throws(missedValues, /Missed values list in @each/);
   });
 
-  it('iterates through given values', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
-                    'background: url("$(icon).png"); } }';
-    var expected  = '.icon-foo {\n    background: url("foo.png")\n}\n' +
-                    '.icon-bar {\n    background: url("bar.png")\n}';
-    test(input, expected);
-  });
+  var caseNames = Object.keys(cases);
+  for (var i = 0; i < caseNames.length; i++) {
+    var caseName    = caseNames[i];
+    var description = cases[caseName];
 
-  it('iterates through one value', function() {
-    var input     = '@each $icon in foo { .icon-$(icon) {' +
-                    'background: url("$(icon).png"); } }';
-    var expected  = '.icon-foo {\n    background: url("foo.png")\n}';
-    test(input, expected);
-  });
-
-  it('iterates short names', function() {
-    var input     = '@each $i in foo { .icon-$(i) {' +
-                    'background: url("$(i).png"); } }';
-    var expected  = '.icon-foo {\n    background: url("foo.png")\n}';
-    test(input, expected);
-  });
-
-  it('iterates value and index', function() {
-    var input     = '@each $val, $i in foo, bar { .icon-$(val) {' +
-                    'background: url("$(val)_$(i).png"); } }';
-    var expected  = '.icon-foo {\n    background: url("foo_0.png")\n}\n' +
-                    '.icon-bar {\n    background: url("bar_1.png")\n}';
-    test(input, expected);
-  });
-
-  it('respects multiple selectors', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
-                    '{ background: url("$(icon).png"); } }';
-    var expected  = '.icon-foo, .foo {\n    background: url("foo.png")\n}\n' +
-                    '.icon-bar, .bar {\n    background: url("bar.png")\n}';
-    test(input, expected);
-  });
-
-  it('respects properties with `in` substring', function() {
-    var input     = '@each $icon in print, bar { .$(icon)' +
-                    '{ background: url("$(icon).png"); } }';
-    var expected  = '.print {\n    background: url("print.png")\n}\n' +
-                    '.bar {\n    background: url("bar.png")\n}';
-    test(input, expected);
-  });
-
-  it('respects multiline expressions', function() {
-    var input     = '@each $icon\nin foo { .$(icon)' +
-                    '{ background: url("$(icon).png"); } }';
-    var expected  = '.foo {\n    background: url("foo.png")\n}';
-    test(input, expected);
-  });
-
-  it('respects multiple properties', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
-                    'background: url("$(icon).png");' +
-                    'content: "$(icon)";' +
-                    '}}';
-    var expected  = '.icon-foo {\n    background: url("foo.png");\n' +
-                                 '    content: "foo"\n}\n' +
-                    '.icon-bar {\n    background: url("bar.png");\n' +
-                                 '    content: "bar"\n}';
-    test(input, expected);
-  });
-
-  it('doesn\'t replace other variables', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon), .$(icon)' +
-                    '{ background: url("$(bg).png"); } }';
-    var expected  = '.icon-foo, .foo {\n    background: url("$(bg).png")\n}\n' +
-                    '.icon-bar, .bar {\n    background: url("$(bg).png")\n}';
-    test(input, expected);
-  });
-
-  it('performs nested iteration', function() {
-    var input     = '@each $icon in foo, bar { .icon-$(icon) {' +
-                    '@each $thing in abc, xyz { border: $(thing); }' +
-                    '} }';
-    var expected  = '.icon-foo {\n    border: abc;\n    border: xyz\n}\n' +
-                    '.icon-bar {\n    border: abc;\n    border: xyz\n}';
-    test(input, expected);
-  });
-
-  it('performs complex nested iteration', function() {
-    var input =     '@each $foo in a, b {' +
-                    '  .$(foo) {' +
-                    '    hello: $(foo);' +
-                    '  } ' +
-                    '  @each $bar in x, y {' +
-                    '    .$(foo)-$(bar) {' +
-                    '      color: purple;' +
-                    '      @each $baz in u, v {' +
-                    '        blah: $(baz);' +
-                    '      }' +
-                    '    }' +
-                    '  }' +
-                    '}';
-    var expected = '.a {\n' +
-                    '    hello: a\n' +
-                    '}\n' +
-                    '.b {\n' +
-                    '    hello: b\n' +
-                    '}\n' +
-                    '.a-x {\n' +
-                    '    color: purple;\n' +
-                    '    blah: u;\n' +
-                    '    blah: v\n' +
-                    '}\n' +
-                    '.b-x {\n' +
-                    '    color: purple;\n' +
-                    '    blah: u;\n' +
-                    '    blah: v\n' +
-                    '}\n' +
-                    '.a-y {\n' +
-                    '    color: purple;\n' +
-                    '    blah: u;\n' +
-                    '    blah: v\n' +
-                    '}\n' +
-                    '.b-y {\n' +
-                    '    color: purple;\n' +
-                    '    blah: u;\n' +
-                    '    blah: v\n' +
-                    '}';
-    test(input, expected);
-  });
+    it(description, function() {
+      test(css(caseName), css(caseName + '.expected'));
+    });
+  };
 
 });
