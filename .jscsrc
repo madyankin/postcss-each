@@ -1,4 +1,5 @@
 {
+  "esnext": true,
   "preset": "airbnb",
   "disallowMultipleVarDecl": "exceptUndefined",
   "disallowQuotedKeysInObjects": "allButReserved"

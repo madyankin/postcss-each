@@ -2,6 +2,7 @@
   "name": "postcss-each",
   "version": "0.4.1",
   "description": "PostCSS plugin to iterate through values",
+  "main": "index.es5.js",
   "keywords": [
     "postcss",
     "css",
@@ -20,10 +21,15 @@
     "postcss-simple-vars": "^0.3.0"
   },
   "devDependencies": {
+    "babel": "^5.6.14",
     "jscs": "^1.13.1",
     "mocha": "^2.2.5"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jscs index.js test && ./node_modules/.bin/mocha"
+    "pretest": "jscs index.js test",
+    "test": "mocha --require babel/register",
+    "transpile": "babel index.js > index.es5.js",
+    "prepublish": "npm run transpile",
+    "postpublish": "rm *.es5.js && git push --follow-tags"
   }
 }

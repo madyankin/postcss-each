@@ -1,12 +1,12 @@
-var postcss = require('postcss');
-var assert  = require('assert');
-var fs      = require('fs');
-var path    = require('path');
+import postcss from 'postcss';
+import assert  from 'assert';
+import fs      from 'fs';
+import path    from 'path';
+import plugin  from '../';
 
-var plugin    = require('../');
-var casesPath = path.join(__dirname, '/cases');
+const casesPath = path.join(__dirname, '/cases');
 
-var cases = {
+const cases = {
   'multiple-values':        'iterates through given values',
   'one-value':              'iterates through one value',
   'short-names':            'iterates short names',
@@ -20,39 +20,30 @@ var cases = {
 };
 
 function test(input, expected, opts, done) {
-  var result = postcss([plugin(opts)]).process(input).css;
+  const result = postcss([plugin(opts)]).process(input).css;
   assert.equal(result, expected);
 };
 
 function css(name) {
-  var fileName = path.join(casesPath, name + '.css');
+  const fileName = path.join(casesPath, name + '.css');
   return fs.readFileSync(fileName).toString();
 }
 
-describe('postcss-each', function() {
-
-  it('expects valid syntax', function() {
-    var missedIn = function() {
-      test('@each $icon foo, bar {}');
-    };
-
-    var missedVar = function() {
-      test('@each in foo, bar {}');
-    };
-
-    var missedValues = function() {
-      test('@each $icon in {}');
-    };
+describe('postcss-each', () => {
+  it('expects valid syntax', () => {
+    const missedIn      = () => test('@each $icon foo, bar {}');
+    const missedVar     = () => test('@each in foo, bar {}');
+    const missedValues  = () => test('@each $icon in {}');
 
     assert.throws(missedIn, /Missed "in" keyword in @each/);
     assert.throws(missedVar, /Missed variable name in @each/);
     assert.throws(missedValues, /Missed values list in @each/);
   });
 
-  for (var caseName in cases) {
-    var description = cases[caseName];
+  for (let caseName in cases) {
+    const description = cases[caseName];
 
-    it(description, function() {
+    it(description, () => {
       test(css(caseName), css(caseName + '.expected'));
     });
   }

@@ -1,15 +1,14 @@
-var postcss   = require('postcss');
-var vars      = require('postcss-simple-vars');
-var list      = postcss.list;
+import postcss  from 'postcss';
+import vars     from 'postcss-simple-vars';
 
-var SEPARATOR = /\s+in\s+/;
+const SEPARATOR = /\s+in\s+/;
 
 function checkParams(params) {
   if (!SEPARATOR.test(params)) return 'Missed "in" keyword in @each';
 
-  var params = params.split(SEPARATOR);
-  var name   = params[0].trim();
-  var values = params[1].trim();
+  const paramsList  = params.split(SEPARATOR);
+  const name        = paramsList[0].trim();
+  const values      = paramsList[1].trim();
 
   if (!name.match(/\$[_a-zA-Z]?\w+/)) return 'Missed variable name in @each';
   if (!values.match(/(\w+\,?\s?)+/)) return 'Missed values list in @each';
@@ -18,25 +17,25 @@ function checkParams(params) {
 }
 
 function paramsList(params) {
-  var params    = params.split(SEPARATOR);
-  var vars      = params[0].split(',');
-  var valueName = vars[0];
-  var indexName = vars[1];
+  const paramsList  = params.split(SEPARATOR);
+  const vars        = paramsList[0].split(',');
+  const valueName   = vars[0];
+  const indexName   = vars[1];
 
   return {
     valueName:  valueName.replace('$', '').trim(),
     indexName:  indexName && indexName.replace('$', '').trim(),
-    values:     list.comma(params[1])
+    values:     postcss.list.comma(paramsList[1])
   };
 }
 
 function processRules(rule, params) {
-  var values = {};
+  const values = {};
 
-  rule.nodes.forEach(function(node) {
-    params.values.forEach(function(value, index) {
-      var clone = node.clone();
-      var proxy = postcss.rule({ nodes: [clone] });
+  rule.nodes.forEach((node) => {
+    params.values.forEach((value, index) => {
+      const clone = node.clone();
+      const proxy = postcss.rule({ nodes: [clone] });
 
       values[params.valueName] = value;
       if (params.indexName) values[params.indexName] = index;
@@ -51,11 +50,11 @@ function processRules(rule, params) {
 function processEach(rule) {
   processLoop(rule);
 
-  var params = ' ' + rule.params + ' ';
-  var error = checkParams(params);
+  const params  = ` ${rule.params} `;
+  const error   = checkParams(params);
   if (error) throw rule.error(error);
 
-  var parsedParams = paramsList(params);
+  const parsedParams = paramsList(params);
   processRules(rule, parsedParams);
   rule.removeSelf();
 }
@@ -64,7 +63,7 @@ function processLoop(css) {
   css.eachAtRule('each', processEach);
 };
 
-module.exports = postcss.plugin('postcss-each', function(opts) {
+export default postcss.plugin('postcss-each', (opts) => {
   opts = opts || {};
   return processLoop;
 });
