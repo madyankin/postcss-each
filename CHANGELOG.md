@@ -1,3 +1,8 @@
+## 0.5.0
+### Internal changes
+* Translated to ES6
+* PostCSS updated
+
 ## 0.4.1
 Internal improvements
 
