@@ -33,26 +33,20 @@ Iterate through values:
 Iterate through values with index:
 
 ```css
-$array: (foo, bar, baz);
-
-@each $val, $i in s, m, l  {
-  .icon_size_$(val) {
-    background: url('icons/$(array[$i]).png');
+@each $val, $i in foo, bar {
+  .icon-$(val) {
+    background: url("$(val)_$(i).png");
   }
 }
 ```
 
 ```css
-.icon_size_s {
-  background: url('icons/foo.png');
+.icon-foo {
+  background: url("foo_0.png");
 }
 
-.icon_size_m {
-  background: url('icons/bar.png');
-}
-
-.icon_size_l {
-  background: url('icons/baz.png');
+.icon-bar {
+  background: url("bar_1.png");
 }
 ```
 

@@ -16,25 +16,22 @@ Fixed #4: Do not search the `in` keyword inside vars
 Added index iteration (by Anton Winogradov @verybigman):
 
 ```css
-$array: (foo, bar);
-
-@each $val, $i in s, m  {
-  .icon_size_$(val) {
-    background: url('icons/$(array[$i]).png');
+@each $val, $i in foo, bar {
+  .icon-$(val) {
+    background: url("$(val)_$(i).png");
   }
 }
 ```
 
 ```css
-.icon_size_s {
-  background: url('icons/foo.png');
+.icon-foo {
+  background: url("foo_0.png");
 }
 
-.icon_size_m {
-  background: url('icons/bar.png');
+.icon-bar {
+  background: url("bar_1.png");
 }
 ```
-
 
 ## 0.2.1
 Fixed short vars issue #2
