@@ -59,6 +59,7 @@ Iterate through multiple variables:
     border: 2px solid $color;
   }
 }
+```
 
 ```css
 .puma-icon {
