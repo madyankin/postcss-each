@@ -6,9 +6,7 @@ const SEPARATOR = /\s+in\s+/;
 function checkParams(params) {
   if (!SEPARATOR.test(params)) return 'Missed "in" keyword in @each';
 
-  const paramsList  = params.split(SEPARATOR);
-  const name        = paramsList[0].trim();
-  const values      = paramsList[1].trim();
+  const [name, values] = params.split(SEPARATOR).map(str => str.trim());
 
   if (!name.match(/\$[_a-zA-Z]?\w+/)) return 'Missed variable name in @each';
   if (!values.match(/(\w+\,?\s?)+/)) return 'Missed values list in @each';
@@ -16,40 +14,52 @@ function checkParams(params) {
   return null;
 }
 
+function tokenize(str) {
+  return postcss.list.comma(str).map(str => str.replace(/^\$/, ''));
+}
+
 function paramsList(params) {
-  const paramsList  = params.split(SEPARATOR);
-  const vars        = paramsList[0].split(',');
-  const valueName   = vars[0];
-  const indexName   = vars[1];
+  let [vars, values] = params.split(SEPARATOR).map(tokenize);
+  let matched = false;
+
+  values = values.map(value => {
+    let match = value.match(/^\((.*)\)$/);
+    if (match) matched = true;
+    return match ? postcss.list.comma(match[1]) : value;
+  });
+
+  values = matched ? values : [values];
 
   return {
-    valueName:  valueName.replace('$', '').trim(),
-    indexName:  indexName && indexName.replace('$', '').trim(),
-    values:     postcss.list.comma(paramsList[1])
+    names:     values.map((_, i) => vars[i]),
+    indexName: vars[values.length],
+    values:    values
   };
 }
 
 function processRules(rule, params) {
-  const values = {};
+  rule.nodes.forEach(node => {
 
-  rule.nodes.forEach((node) => {
-    params.values.forEach((value, index) => {
+    params.values[0].forEach((_, i) => {
       const clone = node.clone();
       const proxy = postcss.rule({ nodes: [clone] });
+      let vals = {};
 
-      values[params.valueName] = value;
-      if (params.indexName) values[params.indexName] = index;
+      params.names.forEach((name, j) => {
+        vals[name] = params.values[j][i];
+      });
 
-      vars({ only: values })(proxy);
+      if (params.indexName) vals[params.indexName] = i;
 
+      vars({ only: vals })(proxy);
       rule.parent.insertBefore(rule, clone);
     });
+
   });
 }
 
 function processEach(rule) {
   processLoop(rule);
-
   const params  = ` ${rule.params} `;
   const error   = checkParams(params);
   if (error) throw rule.error(error);

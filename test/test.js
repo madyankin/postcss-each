@@ -11,6 +11,7 @@ const cases = {
   'one-value':              'iterates through one value',
   'short-names':            'iterates short names',
   'value-with-index':       'iterates value and index',
+  'multiple-assignment':    'iterates and assigns multiple values',
   'multiple-selectors':     'respects multiple selectors',
   'with-in-substring':      'respects properties with `in` substring',
   'multiline-expressions':  'respects multiline expressions',
@@ -20,8 +21,8 @@ const cases = {
 };
 
 function test(input, expected, opts, done) {
-  const result = postcss([plugin(opts)]).process(input).css;
-  assert.equal(result, expected);
+  const result = postcss([plugin(opts)]).process(input);
+  assert.equal(result.css, expected);
 };
 
 function css(name) {
