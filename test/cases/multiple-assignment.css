@@ -1,0 +1,6 @@
+@each $foo, $bar, $i in (a, b, c), (x, y, z) {
+    .icon-$(foo)-$(bar)-$(i) {
+        background: url("$(foo).png");
+        color: $bar;
+    }
+}
