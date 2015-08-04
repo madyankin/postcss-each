@@ -50,6 +50,28 @@ Iterate through values with index:
 }
 ```
 
+Iterate through multiple variables:
+
+```css
+@each $animal, $color in (puma, black), (sea-slug, blue) {
+  .$(animal)-icon {
+    background-image: url('/images/$(animal).png');
+    border: 2px solid $color;
+  }
+}
+
+```css
+.puma-icon {
+  background-image: url('/images/puma.png');
+  border: 2px solid black;  
+}
+
+.sea-slug-icon {
+  background-image: url('/images/sea-slug.png');
+  border: 2px solid blue;
+}
+```
+
 <a href="https://evilmartians.com/?utm_source=postcss-each">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
 </a>
