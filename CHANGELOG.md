@@ -1,3 +1,26 @@
+## 0.6.0
+Added multiple variable assignment (by Ryan Tsao @rtsao):
+
+```css
+@each $animal, $color in (puma, black), (sea-slug, blue) {
+  .$(animal)-icon {
+    background-image: url('/images/$(animal).png');
+    border: 2px solid $color;
+  }
+}
+
+```css
+.puma-icon {
+  background-image: url('/images/puma.png');
+  border: 2px solid black;  
+}
+
+.sea-slug-icon {
+  background-image: url('/images/sea-slug.png');
+  border: 2px solid blue;
+}
+```
+
 ## 0.5.0
 ### Internal changes
 * Translated to ES6
