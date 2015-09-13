@@ -17,7 +17,7 @@ const cases = {
   'multiline-expressions':  'respects multiline expressions',
   'multiple-properties':    'respects multiple properties',
   'other-variables':        'doesn\'t replace other variables',
-  'nested-iteration':       'performs nested iteration'
+  'nested-iteration':       'performs nested iteration',
 };
 
 function test(input, expected, opts, done) {

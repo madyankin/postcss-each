@@ -33,7 +33,7 @@ function paramsList(params) {
   return {
     names:     values.map((_, i) => vars[i]),
     indexName: vars[values.length],
-    values:    values
+    values:    values,
   };
 }
 
@@ -66,11 +66,11 @@ function processEach(rule) {
 
   const parsedParams = paramsList(params);
   processRules(rule, parsedParams);
-  rule.removeSelf();
+  rule.remove();
 }
 
 function processLoop(css) {
-  css.eachAtRule('each', processEach);
+  css.walkAtRules('each', processEach);
 };
 
 export default postcss.plugin('postcss-each', (opts) => {
