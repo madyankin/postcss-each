@@ -1,3 +1,9 @@
+## 0.7.1
+Updated dependencies
+
+## 0.7.0
+Updated to PostCSS 5
+
 ## 0.6.0
 Added multiple variable assignment (by Ryan Tsao @rtsao):
 
