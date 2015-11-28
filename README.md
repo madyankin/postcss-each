@@ -6,6 +6,10 @@ A [PostCSS] plugin to iterate through values.
 [ci-img]:  https://travis-ci.org/outpunk/postcss-each.svg
 [ci]:      https://travis-ci.org/outpunk/postcss-each
 
+<a href="https://evilmartians.com/?utm_source=postcss-each">
+<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
+
 Iterate through values:
 
 ```css
@@ -71,10 +75,6 @@ Iterate through multiple variables:
   border: 2px solid blue;
 }
 ```
-
-<a href="https://evilmartians.com/?utm_source=postcss-each">
-<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
 
 ## Usage
 
