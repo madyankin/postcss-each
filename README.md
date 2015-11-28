@@ -53,7 +53,7 @@ Iterate through values with index:
 Iterate through multiple variables:
 
 ```css
-@each $animal, $color in (puma, black), (sea-slug, blue) {
+@each $animal, $color in (puma, sea-slug), (black, blue) {
   .$(animal)-icon {
     background-image: url('/images/$(animal).png');
     border: 2px solid $color;
@@ -64,9 +64,8 @@ Iterate through multiple variables:
 ```css
 .puma-icon {
   background-image: url('/images/puma.png');
-  border: 2px solid black;  
+  border: 2px solid black;
 }
-
 .sea-slug-icon {
   background-image: url('/images/sea-slug.png');
   border: 2px solid blue;
