@@ -1,3 +1,6 @@
+## 0.7.2
+Updated dependencies
+
 ## 0.7.1
 Updated dependencies
 
