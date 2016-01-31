@@ -17,13 +17,13 @@
     "url": "https://github.com/outpunk/postcss-each.git"
   },
   "dependencies": {
-    "postcss": "^5.0.12",
-    "postcss-simple-vars": "^1.1.0"
+    "postcss": "^5.0.14",
+    "postcss-simple-vars": "^1.2.0"
   },
   "devDependencies": {
     "babel": "<6",
-    "jscs": "^2.6.0",
-    "mocha": "^2.3.4"
+    "jscs": "^2.9.0",
+    "mocha": "^2.4.5"
   },
   "scripts": {
     "pretest": "jscs index.js test",
