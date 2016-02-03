@@ -1,5 +1,5 @@
 ## 0.8.0
-Added support used first @each variables in params nested @each 
+Added support for using parent's variables in a nested loop (by @GitScrum)
 
 ## 0.7.2
 Updated dependencies
