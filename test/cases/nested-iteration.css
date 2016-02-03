@@ -11,10 +11,10 @@
     }
     @each $bar in x, y {
         .$(foo)-$(bar) {
-          color: purple;
-          @each $baz in u, v {
-            blah: $(baz);
-          }
+            color: purple;
+                @each $baz in u, v {
+                blah: $(baz);
+            }
         }
     }
 }
