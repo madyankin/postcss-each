@@ -1,3 +1,6 @@
+## 0.8.0
+Added support used first @each variables in params nested @each 
+
 ## 0.7.2
 Updated dependencies
 

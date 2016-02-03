@@ -59,7 +59,7 @@ function processRules(rule, params) {
 }
 
 function processEach(rule) {
-  processLoop(rule);
+
   const params  = ` ${rule.params} `;
   const error   = checkParams(params);
   if (error) throw rule.error(error);
@@ -67,10 +67,27 @@ function processEach(rule) {
   const parsedParams = paramsList(params);
   processRules(rule, parsedParams);
   rule.remove();
+  processLoop(rule.root());
+}
+
+function rulesExists(css) {
+  let rulesLength = 0;
+  css.walkAtRules('each', () => {
+    rulesLength++;
+  });
+
+  if (rulesLength) {
+    processLoop(css);
+  }
+
+  return rulesLength;
 }
 
 function processLoop(css) {
   css.walkAtRules('each', processEach);
+  if (rulesExists(css)) {
+    processLoop(css);
+  }
 };
 
 export default postcss.plugin('postcss-each', (opts) => {
