@@ -7,17 +7,18 @@ import plugin  from '../';
 const casesPath = path.join(__dirname, '/cases');
 
 const cases = {
-  'multiple-values':        'iterates through given values',
-  'one-value':              'iterates through one value',
-  'short-names':            'iterates short names',
-  'value-with-index':       'iterates value and index',
-  'multiple-assignment':    'iterates and assigns multiple values',
-  'multiple-selectors':     'respects multiple selectors',
-  'with-in-substring':      'respects properties with `in` substring',
-  'multiline-expressions':  'respects multiline expressions',
-  'multiple-properties':    'respects multiple properties',
-  'other-variables':        'doesn\'t replace other variables',
-  'nested-iteration':       'performs nested iteration',
+  'multiple-values':                                      'iterates through given values',
+  'one-value':                                            'iterates through one value',
+  'short-names':                                          'iterates short names',
+  'value-with-index':                                     'iterates value and index',
+  'multiple-assignment':                                  'iterates and assigns multiple values',
+  'multiple-selectors':                                   'respects multiple selectors',
+  'with-in-substring':                                    'respects properties with `in` substring',
+  'multiline-expressions':                                'respects multiline expressions',
+  'multiple-properties':                                  'respects multiple properties',
+  'other-variables':                                      'doesn\'t replace other variables',
+  'nested-iteration':                                     'performs nested iteration',
+  'nested-iteration-params-with-parent-variables':        'used first @each variables in params nested @each ',
 };
 
 function test(input, expected, opts, done) {
