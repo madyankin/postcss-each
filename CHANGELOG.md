@@ -1,3 +1,6 @@
+## 0.9.0
+Added options plugins afterEach and beforeEach
+
 ## 0.8.0
 Added support used first @each variables in params nested @each 
 
