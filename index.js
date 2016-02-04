@@ -59,7 +59,6 @@ function processRules(rule, params) {
 }
 
 function processEach(rule) {
-
   const params  = ` ${rule.params} `;
   const error   = checkParams(params);
   if (error) throw rule.error(error);
@@ -72,25 +71,28 @@ function processEach(rule) {
 
 function rulesExists(css) {
   let rulesLength = 0;
-  css.walkAtRules('each', () => {
-    rulesLength++;
-  });
-
-  if (rulesLength) {
-    processLoop(css);
-  }
-
+  css.walkAtRules('each', () => rulesLength++);
   return rulesLength;
 }
 
-function processLoop(css) {
-  css.walkAtRules('each', processEach);
-  if (rulesExists(css)) {
-    processLoop(css);
+function processLoop(css, opts) {
+
+  if (opts && opts.plugins && opts.plugins.afterEach && opts.plugins.afterEach.length) {
+    css = postcss(opts.plugins.afterEach).process(css).root;
   }
+
+  css.walkAtRules('each', processEach);
+
+  if (opts && opts.plugins && opts.plugins.beforeEach && opts.plugins.beforeEach.length) {
+    css = postcss(opts.plugins.beforeEach).process(css).root;
+  }
+
+  if (rulesExists(css)) processLoop(css, opts);
 };
 
 export default postcss.plugin('postcss-each', (opts) => {
   opts = opts || {};
-  return processLoop;
+  return (css, result) => {
+    processLoop(css, opts);
+  };
 });
