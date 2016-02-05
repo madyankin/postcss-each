@@ -1,3 +1,6 @@
+## 0.9.0
+Added `afterEach` and `beforeEach` options to run plugins before and after each iteration (by @GitScrum)
+
 ## 0.8.0
 Added support for using parent's variables in a nested loop (by @GitScrum)
 

@@ -82,4 +82,41 @@ Iterate through multiple variables:
 postcss([ require('postcss-each') ])
 ```
 
+### Options
+
+#### `plugins`
+
+Type: `object`  
+Default: `{}`
+
+Accepts two properties: `afterEach` and `beforeEach`
+
+#### `afterEach`
+
+Type: `array`
+Default: `[]`
+
+Plugins to be called after each iteration
+
+#### `beforeEach`
+
+Type: `array`
+Default: `[]`
+
+Plugins to be called before each iteration
+
+```javascript
+require('postcss-each')({
+  plugins: {
+    afterEach: [
+      require('postcss-at-rules-variables')
+    ],
+    beforeEach: [
+      require('postcss-custom-properties')
+    ]
+  }
+})
+```
+
+
 See [PostCSS] docs for examples for your environment.

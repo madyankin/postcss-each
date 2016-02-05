@@ -75,12 +75,23 @@ function rulesExists(css) {
   return rulesLength;
 }
 
-function processLoop(css) {
+function processLoop(css, opts) {
+  const hasPlugins = opts && opts.plugins;
+
+  if (hasPlugins && opts.plugins.afterEach && opts.plugins.afterEach.length) {
+    css = postcss(opts.plugins.afterEach).process(css).root;
+  }
+
   css.walkAtRules('each', processEach);
-  if (rulesExists(css)) processLoop(css);
+
+  if (hasPlugins && opts.plugins.beforeEach && opts.plugins.beforeEach.length) {
+    css = postcss(opts.plugins.beforeEach).process(css).root;
+  }
+
+  if (rulesExists(css)) processLoop(css, opts);
 };
 
 export default postcss.plugin('postcss-each', (opts) => {
   opts = opts || {};
-  return processLoop;
+  return (css, result) => processLoop(css, opts);
 });
