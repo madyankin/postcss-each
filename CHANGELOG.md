@@ -1,3 +1,6 @@
+## 0.9.1
+Fixed nodes processing order https://github.com/outpunk/postcss-each/issues/17 (by Muhamad Gameel @hexpanic)
+
 ## 0.9.0
 Added `afterEach` and `beforeEach` options to run plugins before and after each iteration (by @GitScrum)
 
