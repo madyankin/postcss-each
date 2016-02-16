@@ -9,9 +9,6 @@
 .a {
     hello: a
 }
-.b {
-    hello: b
-}
 .a-x {
     color: purple;
     blah: u;
@@ -21,6 +18,9 @@
     color: purple;
     blah: u;
     blah: v
+}
+.b {
+    hello: b
 }
 .b-x {
     color: purple;

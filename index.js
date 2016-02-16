@@ -38,23 +38,22 @@ function paramsList(params) {
 }
 
 function processRules(rule, params) {
-  rule.nodes.forEach(node => {
+  params.values[0].forEach((_, i) => {
+    let vals = {};
 
-    params.values[0].forEach((_, i) => {
+    params.names.forEach((name, j) => {
+      vals[name] = params.values[j][i];
+    });
+
+    if (params.indexName) vals[params.indexName] = i;
+
+    rule.nodes.forEach(node => {
       const clone = node.clone();
       const proxy = postcss.rule({ nodes: [clone] });
-      let vals = {};
-
-      params.names.forEach((name, j) => {
-        vals[name] = params.values[j][i];
-      });
-
-      if (params.indexName) vals[params.indexName] = i;
 
       vars({ only: vals })(proxy);
       rule.parent.insertBefore(rule, clone);
     });
-
   });
 }
 
