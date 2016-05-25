@@ -1,6 +1,6 @@
 {
   "name": "postcss-each",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "PostCSS plugin to iterate through values",
   "main": "index.es5.js",
   "keywords": [
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "postcss": "^5.0.14",
-    "postcss-simple-vars": "^1.2.0"
+    "postcss-simple-vars": "^2.0.0"
   },
   "devDependencies": {
     "babel": "<6",
