@@ -1,3 +1,6 @@
+## 0.9.2
+Updated dependencies
+
 ## 0.9.1
 Fixed nodes processing order https://github.com/outpunk/postcss-each/issues/17 (by Muhamad Gameel @hexpanic)
 
