@@ -1,6 +1,6 @@
 {
-  "esnext": true,
   "preset": "airbnb",
   "disallowMultipleVarDecl": "exceptUndefined",
-  "disallowQuotedKeysInObjects": "allButReserved"
+  "disallowQuotedKeysInObjects": "allButReserved",
+  "disallowArrayDestructuringReturn": false
 }
