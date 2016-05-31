@@ -1,3 +1,6 @@
+## 0.9.3
+Babel packages moved to devDependencies
+
 ## 0.9.2
 Updated dependencies
 
