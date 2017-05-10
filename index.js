@@ -50,6 +50,10 @@ function processRules(rule, params) {
     rule.nodes.forEach(node => {
       const clone = node.clone();
       const proxy = postcss.rule({ nodes: [clone] });
+      clone.raws = {};  // Cleans raws object
+      if (clone.nodes) {
+        clone.nodes.forEach(n => n.raws = {});
+      }
 
       vars({ only: vals })(proxy);
       rule.parent.insertBefore(rule, clone);
@@ -88,7 +92,7 @@ function processLoop(css, opts) {
   }
 
   if (rulesExists(css)) processLoop(css, opts);
-};
+}
 
 export default postcss.plugin('postcss-each', (opts) => {
   opts = opts || {};
