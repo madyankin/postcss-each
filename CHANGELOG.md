@@ -1,3 +1,6 @@
+## 0.10.0
+Updated to PostCSS 6
+
 ## 0.9.3
 Babel packages moved to devDependencies
 
