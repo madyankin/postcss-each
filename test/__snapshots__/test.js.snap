@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postcss-each doesn't replace other variables 1`] = `
+"
+    .icon-foo, .foo {
+        background: url(\\"$(bg).png\\");
+    }
+.icon-bar, .bar {
+        background: url(\\"$(bg).png\\");
+    }
+"
+`;
+
+exports[`postcss-each iterates and assigns multiple values 1`] = `
+"
+    .icon-a-x-0 {
+        background: url(\\"a.png\\");
+        color: x;
+    }
+.icon-b-y-1 {
+        background: url(\\"b.png\\");
+        color: y;
+    }
+.icon-c-z-2 {
+        background: url(\\"c.png\\");
+        color: z;
+    }
+"
+`;
+
+exports[`postcss-each iterates short names 1`] = `
+"
+    .icon-foo {
+        background: url(\\"foo.png\\");
+    }
+"
+`;
+
+exports[`postcss-each iterates through given values 1`] = `
+"
+    .icon-foo {
+        background: url(\\"foo.png\\");
+    }
+.icon-bar {
+        background: url(\\"bar.png\\");
+    }
+"
+`;
+
+exports[`postcss-each iterates through one value 1`] = `
+"
+    .icon-foo {
+        background: url(\\"foo.png\\");
+    }
+"
+`;
+
+exports[`postcss-each iterates value and index 1`] = `
+"
+    .icon-foo {
+        background: url(\\"foo_0.png\\");
+    }
+.icon-bar {
+        background: url(\\"bar_1.png\\");
+    }
+"
+`;
+
+exports[`postcss-each performs nested iteration 1`] = `
+"
+    .icon-foo {
+            border: abc;
+            border: xyz
+    }
+.icon-bar {
+            border: abc;
+            border: xyz
+    }
+.a {
+        hello: a;
+    }
+.a-x {
+            color: purple;
+                blah: u;
+                blah: v
+        }
+.a-y {
+            color: purple;
+                blah: u;
+                blah: v
+        }
+.b {
+        hello: b;
+    }
+.b-x {
+            color: purple;
+                blah: u;
+                blah: v
+        }
+.b-y {
+            color: purple;
+                blah: u;
+                blah: v
+        }
+"
+`;
+
+exports[`postcss-each performs nested iteration with parent's variables 1`] = `
+"
+    .icon-foo {
+            border: foo-abc;
+            border: xyz
+    }
+.icon-bar {
+            border: bar-abc;
+            border: xyz
+    }
+"
+`;
+
+exports[`postcss-each respects multiline expressions 1`] = `
+"
+    .foo {
+        background: url(\\"foo.png\\")
+    }
+.bar {
+        background: url(\\"bar.png\\")
+    }
+"
+`;
+
+exports[`postcss-each respects multiple properties 1`] = `
+"
+    .icon-foo {
+        background: url(\\"foo.png\\");
+        content: \\"foo\\";
+    }
+.icon-bar {
+        background: url(\\"bar.png\\");
+        content: \\"bar\\";
+    }
+"
+`;
+
+exports[`postcss-each respects multiple selectors 1`] = `
+"
+    .icon-foo, .foo {
+        background: url(\\"foo.png\\");
+    }
+.icon-bar, .bar {
+        background: url(\\"bar.png\\");
+    }
+"
+`;
+
+exports[`postcss-each respects properties with \`in\` substring 1`] = `
+"
+    .print {
+        background: url(\\"print.png\\");
+    }
+.bar {
+        background: url(\\"bar.png\\");
+    }
+"
+`;

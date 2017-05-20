@@ -21,9 +21,9 @@ const cases = {
   'nested-iteration-parent-vars': 'performs nested iteration with parent\'s variables',
 };
 
-function test(input, expected, opts, done) {
+function test(input, opts, done) {
   const result = postcss([plugin(opts)]).process(input);
-  assert.equal(result.css, expected);
+  expect(result.css).toMatchSnapshot();
 };
 
 function css(name) {
@@ -44,9 +44,6 @@ describe('postcss-each', () => {
 
   for (let caseName in cases) {
     const description = cases[caseName];
-
-    it(description, () => {
-      test(css(caseName), css(caseName + '.expected'));
-    });
+    it(description, () => test(css(caseName)));
   }
 });
