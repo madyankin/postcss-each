@@ -17,8 +17,8 @@
     "url": "https://github.com/outpunk/postcss-each.git"
   },
   "dependencies": {
-    "postcss": "^6.0.1",
-    "postcss-simple-vars": "^4.0.0"
+    "postcss": "^7.0.5",
+    "postcss-simple-vars": "^5.0.1"
   },
   "devDependencies": {
     "babel": "^6.5.2",
