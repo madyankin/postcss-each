@@ -17,8 +17,7 @@
     "url": "https://github.com/outpunk/postcss-each.git"
   },
   "dependencies": {
-    "postcss": "^6.0.1",
-    "postcss-simple-vars": "^4.0.0"
+    "postcss-simple-vars": "^5.0.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -27,7 +26,11 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.9.0",
     "jest": "^20.0.3",
-    "jscs": "^3.0.3"
+    "jscs": "^3.0.3",
+    "postcss": "^8.0.0"
+  },
+  "peerDependencies": {
+    "postcss": "^8.0.0"
   },
   "scripts": {
     "pretest": "jscs index.js test",
