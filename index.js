@@ -1,5 +1,5 @@
-import postcss  from 'postcss';
-import vars     from 'postcss-simple-vars';
+const postcss = require('postcss');
+const vars = require('postcss-simple-vars');
 
 const SEPARATOR = /\s+in\s+/;
 
@@ -90,7 +90,7 @@ function processLoop(css, opts) {
   if (rulesExists(css)) processLoop(css, opts);
 };
 
-export default postcss.plugin('postcss-each', (opts) => {
+module.exports = postcss.plugin('postcss-each', (opts) => {
   opts = opts || {};
   return (css, result) => processLoop(css, opts);
 });

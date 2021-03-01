@@ -1,8 +1,8 @@
-import postcss from 'postcss';
-import assert  from 'assert';
-import fs      from 'fs';
-import path    from 'path';
-import plugin  from '../';
+const postcss = require('postcss');
+const assert  = require('assert');
+const fs      = require('fs');
+const path    = require('path');
+const plugin  = require('../');
 
 const casesPath = path.join(__dirname, '/cases');
 
