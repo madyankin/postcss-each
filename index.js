@@ -1,6 +1,7 @@
 const postcss = require('postcss');
 const vars = require('postcss-simple-vars');
 
+const PLUGIN_NAME = 'postcss-each';
 const SEPARATOR = /\s+in\s+/;
 
 function checkParams(params) {
@@ -48,11 +49,9 @@ function processRules(rule, params) {
     if (params.indexName) vals[params.indexName] = i;
 
     rule.nodes.forEach(node => {
-      const clone = node.clone();
-      const proxy = postcss.rule({ nodes: [clone] });
-
+      const proxy = postcss.rule({ nodes: [node] });
       vars({ only: vals })(proxy);
-      rule.parent.insertBefore(rule, clone);
+      rule.parent.insertBefore(rule, proxy.nodes[0]);
     });
   });
 }
@@ -65,7 +64,6 @@ function processEach(rule) {
   const parsedParams = paramsList(params);
   processRules(rule, parsedParams);
   rule.remove();
-  processLoop(rule.root());
 }
 
 function rulesExists(css) {
@@ -74,23 +72,47 @@ function rulesExists(css) {
   return rulesLength;
 }
 
-function processLoop(css, opts) {
-  const hasPlugins = opts && opts.plugins;
-
-  if (hasPlugins && opts.plugins.afterEach && opts.plugins.afterEach.length) {
-    css = postcss(opts.plugins.afterEach).process(css).root;
+function processLoop(css, afterEach, beforeEach) {
+  if (afterEach) {
+    css = postcss(afterEach).process(css).root;
   }
 
-  css.walkAtRules('each', processEach);
+  css.walkAtRules('each', (rule) => {
+    processEach(rule);
+    processLoop(rule.root());
+  });
 
-  if (hasPlugins && opts.plugins.beforeEach && opts.plugins.beforeEach.length) {
-    css = postcss(opts.plugins.beforeEach).process(css).root;
+  if (beforeEach) {
+    css = postcss(beforeEach).process(css).root;
   }
 
-  if (rulesExists(css)) processLoop(css, opts);
+  if (rulesExists(css)) processLoop(css, afterEach, beforeEach);
 };
 
-module.exports = postcss.plugin('postcss-each', (opts) => {
-  opts = opts || {};
-  return (css, result) => processLoop(css, opts);
-});
+const pluginCreator = (opts = {}) => {
+  const hasPlugins = opts && opts.plugins;
+  const hasAfterEach = hasPlugins && opts.plugins.afterEach && opts.plugins.afterEach.length;
+  const hasBeforeEach = hasPlugins && opts.plugins.beforeEach && opts.plugins.beforeEach.length;
+
+  if (hasAfterEach || hasBeforeEach) {
+    return {
+      postcssPlugin: PLUGIN_NAME,
+      Once: (css) => processLoop(
+        css,
+        hasAfterEach && opts.plugins.afterEach,
+        hasBeforeEach && opts.plugins.beforeEach
+      ),
+    };
+  } else {
+    return {
+      postcssPlugin: PLUGIN_NAME,
+      AtRule: {
+        each: processEach,
+      },
+    };
+  }
+};
+
+pluginCreator.postcss = true;
+
+module.exports = pluginCreator;
