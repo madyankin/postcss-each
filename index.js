@@ -1,5 +1,5 @@
-import postcss  from 'postcss';
-import vars     from 'postcss-simple-vars';
+const postcss = require('postcss');
+const vars = require('postcss-simple-vars');
 
 const PLUGIN_NAME = 'postcss-each';
 const SEPARATOR = /\s+in\s+/;
@@ -115,4 +115,5 @@ const pluginCreator = (opts = {}) => {
 
 pluginCreator.postcss = true;
 
-export default pluginCreator;
+modules.exports = pluginCreator;
+
