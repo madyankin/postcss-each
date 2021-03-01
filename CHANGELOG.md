@@ -1,3 +1,7 @@
+## 1.0.0
+- Updated to PostCSS 8 (by Charles Suh @charlessuh)
+- Got rid of Babel
+
 ## 0.10.0
 Updated to PostCSS 6
 
