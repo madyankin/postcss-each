@@ -74,6 +74,12 @@ Iterate through multiple variables:
 }
 ```
 
+# Installation
+
+```
+npm install --save-dev postcss postcss-each
+```
+
 ## Usage
 
 ```js
