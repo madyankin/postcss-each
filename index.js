@@ -50,8 +50,8 @@ function processRules(rule, params) {
 
     rule.nodes.forEach(node => {
       const proxy = postcss.rule({ nodes: [node] });
-      vars({ only: vals })(proxy);
-      rule.parent.insertBefore(rule, proxy.nodes[0]);
+      const { root } = postcss([vars({ only: vals })]).process(proxy);
+      rule.parent.insertBefore(rule, root.nodes[0].nodes[0]);
     });
   });
 }
