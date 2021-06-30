@@ -1,3 +1,6 @@
+## 1.1.0
+- Updated postcss-simple-vars (by Charles Suh @charlessuh)
+
 ## 1.0.0
 - Updated to PostCSS 8 (by Charles Suh @charlessuh)
 - Got rid of Babel
@@ -43,7 +46,7 @@ Added multiple variable assignment (by Ryan Tsao @rtsao):
 ```css
 .puma-icon {
   background-image: url('/images/puma.png');
-  border: 2px solid black;  
+  border: 2px solid black;
 }
 
 .sea-slug-icon {
